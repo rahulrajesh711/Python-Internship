@@ -1,3 +1,4 @@
+from email.quoprimime import quote
 from tkinter import *
 from tkinter import *
 from tkinter.messagebox import *
@@ -6,9 +7,16 @@ import bs4
 
 #QOTD code
 try:
-	url = ""
+	url = "https://quotes.rest/qod?language=en"
+	res = requests.get(url,headers = {'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'})
+	print(res)
+
+	json_response = res.json()
+	quote = json_response["contents"]["quotes"][0]["quote"]
+	print(quote)
+
 except Exception as e:
-	print("issue ",e)
+	print("Issue ",e)
 
 #main window/ems window
 emsWindow = Tk()      
@@ -64,10 +72,10 @@ btn_delete.place(x=110,y=170)
 btn_charts.place(x=110,y=210)
 
 #label assignments
-nf = ("Ariel",20)
-label_QOTD = Label(emsWindow,text="QOTD:\n",font = nf)
+nf = ("Ariel",15)
+label_QOTD = Label(emsWindow,text="QOTD:\n"+str(quote),font = nf,justify = "left")
 
 #label placement for main ems window
 label_QOTD.place(x=0,y=300)
-
+#label_QOTD.pack( ipadx = 10, ipady = 100 )
 emsWindow.mainloop()
